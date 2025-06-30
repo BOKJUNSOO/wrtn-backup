@@ -9,12 +9,6 @@ from sqlalchemy import create_engine
 import json
 import numpy as np
 
-# meta data
-dict_ = {
-    "navigation_container": "div.css-h1fkhq.e112o4s61",
-    "navigation_element": "p.css-13ahzj4.e112o4s61"
-}
-
 # database connenction
 conn_params = {
     "host": "postgres",
@@ -29,7 +23,7 @@ db_info = {
 
 #
 start_url = "https://crack.wrtn.ai/?pageId=682c89c39d1325983179b65b"
-not_category = ["추천", "랭킹", "오늘 신작", "남성 인기", "여성 인기"]
+not_category     = ["추천", "랭킹", "오늘 신작", "남성 인기", "여성 인기"]
 created_at = datetime.now().strftime("%Y-%m-%d")
 
 #
@@ -41,6 +35,29 @@ chrome_options.add_argument("--disable-dev-shm-usage")
 # first rendering
 driver = webdriver.Chrome(options=chrome_options)
 driver.get(start_url)
+
+# search "click" element
+elements = driver.find_elements(By.TAG_NAME, "p")
+for el in elements:
+    if el.text.strip() == "로맨스":
+        stack = el.get_attribute("class").replace(" ",".")
+        print("element class : ",stack)
+        break
+
+# search "nav" element
+main_element = driver.find_element(By.TAG_NAME, "main")
+divs_in_main = main_element.find_elements(By.TAG_NAME, "div")
+
+navigation_container_class = None
+if len(divs_in_main) >= 3:
+    navigation_container_class = divs_in_main[2].get_attribute("class").replace(" ", ".")
+    print("navigation_container_class : ",navigation_container_class)
+    
+# css selector
+dict_ = {
+    "navigation_container": f"div.{navigation_container_class}",
+    "navigation_element": f"p.{stack}"
+}
 
 # get navigation bar element
 navigation_container = driver.find_element(By.CSS_SELECTOR, dict_["navigation_container"])
