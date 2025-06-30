@@ -11,20 +11,13 @@ import numpy as np
 
 # meta data
 dict_ = {
-    "navigation_container": "div.css-h1fkhq.eqzborc0",
-    "navigation_element": "p.css-13ahzj4.eqzborc4",
-
-    "character_collect": "div.css-il3plt.eqzborc0",
-    "character_card": "div.css-m2oo7f.eqzborc0",
-
-    "character_name": "p.css-ax2fwg.eqzborc4",
-    "character_info": "p.css-1it4xgx.eqzborc4",
-    "character_img": "div.css-uwwqev.eqzborc0"
+    "navigation_container": "div.css-h1fkhq.e112o4s61",
+    "navigation_element": "p.css-13ahzj4.e112o4s61"
 }
 
 # database connenction
 conn_params = {
-    "host": "127.0.0.1",  # TODO : 컨테이너 내부 - postgres
+    "host": "postgres",
     "port": 5432,
     "dbname": "wrtncrack",
     "user": "airflow",
@@ -62,6 +55,7 @@ for idx, nav in enumerate(navigation_elements):
     })
 
 category_df = pd.DataFrame(nav_list)
+
 category_df.insert(0, "id", range(1, len(category_df) + 1))
 category_list = list(category_df["name"])
 

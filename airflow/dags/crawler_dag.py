@@ -1,5 +1,6 @@
 from airflow import DAG
 from airflow.providers.docker.operators.docker import DockerOperator
+import pendulum
 
 
 with DAG(
@@ -12,11 +13,12 @@ with DAG(
 
     run_container = DockerOperator(
         task_id='run_container',
-        image='crack_image:v1.0.0',
-        container_name='crawler',
-        command='python3 spider.py',
-        docker_url='unix://var/run/docker.sock',
-        network_mode='bridge'
+        image='crack_images:latest',
+        command='python spider.py',
+        docker_url="unix:///var/run/docker.sock",
+        network_mode='crack',
+        auto_remove=True,
+        mount_tmp_dir=False,
     )
 
     run_container
