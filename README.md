@@ -121,7 +121,7 @@ CREATE SCHEMA crack;
 - `docker` 디렉토리로 이동합니다.
 - 다음 명령어와 디렉토리에 `Dockerfile`를 이용해 이미지를 빌드합니다.
 ```bash
-docker build -t crack_image .
+docker build -t crack_images .
 ```
 
 2. 이미지 목록 확인
